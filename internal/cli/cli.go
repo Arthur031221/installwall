@@ -20,7 +20,7 @@ import (
 	"github.com/Arthur031221/installwall/internal/shim"
 )
 
-const helpText = `installwall: a firewall for what your AI coding agent installs
+const helpText = `installwall: check direct package installs before they run
 
 Usage:
   installwall install [--yes]        shim npm, pip, pip3, gem and cargo

@@ -53,6 +53,17 @@ func TestLoadMalicious(t *testing.T) {
 			t.Errorf("indicator %q has no ecosystem", ind.Name)
 		}
 	}
+	for _, eco := range []Ecosystem{NPM, PyPI, RubyGems, Crates} {
+		popular, err := LoadPopular(eco)
+		if err != nil {
+			t.Fatalf("LoadPopular(%s): %v", eco, err)
+		}
+		for _, ind := range list {
+			if Ecosystem(ind.Ecosystem) == eco && popular.Has(ind.Name) {
+				t.Errorf("popular %s package %q has a name-level malicious block; check whether only a version was affected", eco, ind.Name)
+			}
+		}
+	}
 }
 
 func TestIndexMaliciousLookup(t *testing.T) {
