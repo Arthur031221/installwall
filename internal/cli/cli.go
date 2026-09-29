@@ -129,14 +129,23 @@ func runCheck(args []string, stdout, stderr io.Writer) int {
 		fmt.Fprintln(stderr, "Usage: installwall check <package> [--ecosystem npm|pypi|rubygems|crates] [--why] [--json]")
 		fs.PrintDefaults()
 	}
-	if err := fs.Parse(args); err != nil {
-		return 2
-	}
-	if fs.NArg() != 1 {
+	// Go's flag package stops parsing at the first non-flag argument, so
+	// "check requests --ecosystem pypi" would otherwise be misread as
+	// three positionals. Pull the one positional (the package name) out
+	// first, wherever it sits, and hand flag.Parse only the flag tokens.
+	flagArgs, pkg, err := extractPositional(args, map[string]bool{"-e": true, "--ecosystem": true, "-ecosystem": true})
+	if err != nil {
+		fmt.Fprintln(stderr, err)
 		fs.Usage()
 		return 2
 	}
-	pkg := fs.Arg(0)
+	if err := fs.Parse(flagArgs); err != nil {
+		return 2
+	}
+	if pkg == "" {
+		fs.Usage()
+		return 2
+	}
 
 	c, err := checker.New()
 	if err != nil {
@@ -159,6 +168,33 @@ func runCheck(args []string, stdout, stderr io.Writer) int {
 		return 1
 	}
 	return 0
+}
+
+// extractPositional pulls the single non-flag argument (the package name)
+// out of args, wherever it appears, and returns the remaining flag
+// tokens in their original relative order. valueFlags lists flag names
+// that consume the following token as their value.
+func extractPositional(args []string, valueFlags map[string]bool) (flagArgs []string, positional string, err error) {
+	skipNext := false
+	for _, tok := range args {
+		if skipNext {
+			flagArgs = append(flagArgs, tok)
+			skipNext = false
+			continue
+		}
+		if strings.HasPrefix(tok, "-") {
+			flagArgs = append(flagArgs, tok)
+			if valueFlags[tok] && !strings.Contains(tok, "=") {
+				skipNext = true
+			}
+			continue
+		}
+		if positional != "" {
+			return nil, "", fmt.Errorf("installwall: unexpected extra argument %q", tok)
+		}
+		positional = tok
+	}
+	return flagArgs, positional, nil
 }
 
 func printVerdict(w io.Writer, v checker.Verdict, why bool) {

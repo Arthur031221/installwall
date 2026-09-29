@@ -48,6 +48,23 @@ func TestCheckRequiresExactlyOnePackage(t *testing.T) {
 	}
 }
 
+func TestCheckAcceptsFlagsAfterPackageName(t *testing.T) {
+	// Go's flag package stops parsing at the first positional argument,
+	// so this ordering must be handled explicitly, see extractPositional.
+	out, _, code := run(t, "check", "requests", "--ecosystem", "pypi", "--json")
+	if code != 0 {
+		t.Fatalf("code=%d out=%q", code, out)
+	}
+	if !strings.Contains(out, `"package": "requests"`) || !strings.Contains(out, `"ecosystem": "pypi"`) {
+		t.Fatalf("output missing expected fields: %q", out)
+	}
+
+	_, errOut, code := run(t, "check", "a", "b", "--ecosystem", "pypi")
+	if code != 2 || !strings.Contains(errOut, "unexpected extra argument") {
+		t.Fatalf("two positionals: code=%d err=%q", code, errOut)
+	}
+}
+
 func TestExecRequiresTool(t *testing.T) {
 	_, _, code := run(t, "exec")
 	if code != 2 {
