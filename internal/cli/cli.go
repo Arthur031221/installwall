@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"runtime/debug"
 	"sort"
 	"strings"
 	"time"
@@ -55,7 +56,7 @@ func Run(args []string, stdout, stderr io.Writer) int {
 	case "exec":
 		return runExec(rest, stdout, stderr)
 	case "version", "--version", "-v":
-		fmt.Fprintf(stdout, "installwall %s\n", Version)
+		fmt.Fprintf(stdout, "installwall %s\n", buildVersion())
 		return 0
 	case "help", "--help", "-h":
 		fmt.Fprint(stdout, helpText)
@@ -65,6 +66,16 @@ func Run(args []string, stdout, stderr io.Writer) int {
 		fmt.Fprint(stderr, helpText)
 		return 2
 	}
+}
+
+func buildVersion() string {
+	if Version != "dev" {
+		return Version
+	}
+	if info, ok := debug.ReadBuildInfo(); ok && info.Main.Version != "" && info.Main.Version != "(devel)" {
+		return info.Main.Version
+	}
+	return Version
 }
 
 func runInstall(args []string, stdout, stderr io.Writer) int {

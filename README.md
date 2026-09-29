@@ -20,7 +20,7 @@ contains 1,510 distinct package names with OSV advisory links.[^indicators]
 
 [![CI](https://github.com/Arthur031221/installwall/actions/workflows/ci.yml/badge.svg)](https://github.com/Arthur031221/installwall/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.1.1-blue.svg)](CHANGELOG.md)
 
 ![installwall demo](demo/demo.gif)
 
@@ -37,7 +37,7 @@ dependency audit or a lockfile review.
 Go 1.27.1 or newer is required to build from source:
 
 ```sh
-go install github.com/Arthur031221/installwall/cmd/installwall@v0.1.0
+go install github.com/Arthur031221/installwall/cmd/installwall@v0.1.1
 ```
 
 Make sure `$(go env GOPATH)/bin` is on `PATH`, then check a package without
