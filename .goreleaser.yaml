@@ -1,0 +1,73 @@
+version: 2
+
+project_name: installwall
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: installwall
+    main: ./cmd/installwall
+    binary: installwall
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X main.version={{.Version}}
+    mod_timestamp: "{{ .CommitTimestamp }}"
+
+archives:
+  - id: default
+    formats: [tar.gz]
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files:
+      - LICENSE
+      - README.md
+      - CHANGELOG.md
+
+checksum:
+  name_template: checksums.txt
+  algorithm: sha256
+
+changelog:
+  use: git
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+
+release:
+  github:
+    owner: Arthur031221
+    name: installwall
+  draft: false
+  prerelease: auto
+
+# Uncomment once the tap repository Arthur031221/homebrew-tap exists and the
+# HOMEBREW_TAP_TOKEN secret is set in the release workflow.
+#
+# brews:
+#   - name: installwall
+#     repository:
+#       owner: Arthur031221
+#       name: homebrew-tap
+#     directory: Formula
+#     homepage: https://github.com/Arthur031221/installwall
+#     description: A firewall for what your AI coding agent installs
+#     license: MIT
+#     install: |
+#       bin.install "installwall"
+#     test: |
+#       assert_match "installwall", shell_output("#{bin}/installwall version")

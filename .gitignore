@@ -1,0 +1,8 @@
+/dist/
+/installwall
+/installwall-*
+*.test
+*.out
+.DS_Store
+/bench/results/*.json
+!/bench/results/.gitkeep
