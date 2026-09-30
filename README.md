@@ -124,6 +124,12 @@ manager normally after adding the shim directory to `PATH`.
 - Some package-manager flag forms, aliases, or wrapper tools may bypass the
   parser. Review the audit log and use a dependency scanner as well.
 
+## Related projects
+
+- [agentleaks](https://github.com/Arthur031221/agentleaks): Cleans up a secret an agent already leaked. installwall stops a risky install before it happens. Same threat model, different point in the timeline.
+- [cliffhanger](https://github.com/Arthur031221/cliffhanger): installwall blocks a bad install mid task. cliffhanger blocks the agent from quitting before the task is done.
+- [shiftgear](https://github.com/Arthur031221/shiftgear): Routes the same coding agents that installwall's shims sit in front of.
+
 ## Contributing and license
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). MIT license, copyright 2026 Arthur.
