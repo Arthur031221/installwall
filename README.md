@@ -5,6 +5,8 @@ small shims ahead of `npm`, `pip`, `pip3`, `gem`, and `cargo` on `PATH`. A shim
 checks each explicitly named package against typosquat, package age, and sourced
 malicious-name rules, then either runs the real package manager or blocks it.
 
+![installwall blocks a typo-squatted package name during a pip install](demo/demo.gif)
+
 In a live PyPI check on 2026-09-30, `reqeusts` was blocked as a one-edit typo of
 `requests`, while `requests` was allowed.[^check] The embedded indicator snapshot
 contains 1,510 distinct package names with OSV advisory links.[^indicators]
@@ -21,8 +23,6 @@ contains 1,510 distinct package names with OSV advisory links.[^indicators]
 [![CI](https://github.com/Arthur031221/installwall/actions/workflows/ci.yml/badge.svg)](https://github.com/Arthur031221/installwall/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-0.1.1-blue.svg)](CHANGELOG.md)
-
-![installwall demo](demo/demo.gif)
 
 ## Why
 
