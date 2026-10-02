@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Ignore npm workspace selectors when checking explicitly named installs.
+
 ## 0.1.1
 
 - Report the module version for binaries installed with `go install`.

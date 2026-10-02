@@ -17,6 +17,8 @@ func TestParseNPM(t *testing.T) {
 		{"scoped no version", []string{"install", "@babel/core"}, Plan{true, []Spec{{Name: "@babel/core"}}}},
 		{"flags skipped", []string{"install", "--save-dev", "typescript"}, Plan{true, []Spec{{Name: "typescript"}}}},
 		{"multiple packages", []string{"add", "react", "react-dom"}, Plan{true, []Spec{{Name: "react"}, {Name: "react-dom"}}}},
+		{"workspace shorthand", []string{"install", "abbrev", "-w", "a"}, Plan{true, []Spec{{Name: "abbrev"}}}},
+		{"workspace option", []string{"install", "--workspace", "packages/api", "abbrev"}, Plan{true, []Spec{{Name: "abbrev"}}}},
 		{"no args, from package.json", []string{"install"}, Plan{Checked: false}},
 		{"ci does not install new", []string{"ci"}, Plan{Checked: false}},
 		{"run build passes through", []string{"run", "build"}, Plan{Checked: false}},
