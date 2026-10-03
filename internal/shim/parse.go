@@ -27,10 +27,11 @@ type Plan struct {
 // token as a value rather than a package name (for example "pip install
 // -r requirements.txt").
 var flagsWithValue = map[string]map[string]bool{
-	"pip":  {"-r": true, "--requirement": true, "-c": true, "--constraint": true, "-i": true, "--index-url": true, "--extra-index-url": true, "-t": true, "--target": true},
-	"pip3": {"-r": true, "--requirement": true, "-c": true, "--constraint": true, "-i": true, "--index-url": true, "--extra-index-url": true, "-t": true, "--target": true},
-	"gem":  {"-v": true, "--version": true, "--source": true, "--platform": true},
-	"npm":  {"--tag": true, "--registry": true, "-w": true, "--workspace": true},
+	"pip":   {"-r": true, "--requirement": true, "-c": true, "--constraint": true, "-i": true, "--index-url": true, "--extra-index-url": true, "-t": true, "--target": true},
+	"pip3":  {"-r": true, "--requirement": true, "-c": true, "--constraint": true, "-i": true, "--index-url": true, "--extra-index-url": true, "-t": true, "--target": true},
+	"gem":   {"-v": true, "--version": true, "--source": true, "--platform": true},
+	"npm":   {"--tag": true, "--registry": true, "-w": true, "--workspace": true},
+	"cargo": {"-F": true, "--features": true},
 }
 
 // installSubcommands lists, per tool, the subcommands that install

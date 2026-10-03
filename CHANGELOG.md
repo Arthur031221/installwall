@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Ignore Cargo feature selectors when checking named installs.
 - Ignore npm workspace selectors when checking explicitly named installs.
 
 ## 0.1.1

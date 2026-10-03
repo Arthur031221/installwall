@@ -76,6 +76,8 @@ func TestParseCargo(t *testing.T) {
 	}{
 		{"add", []string{"add", "serde"}, Plan{true, []Spec{{Name: "serde"}}}},
 		{"add pinned", []string{"add", "serde@1.0.0"}, Plan{true, []Spec{{Name: "serde", Version: "1.0.0"}}}},
+		{"add with features", []string{"add", "serde", "--features", "derive"}, Plan{true, []Spec{{Name: "serde"}}}},
+		{"add with feature shorthand", []string{"add", "serde", "-F", "derive"}, Plan{true, []Spec{{Name: "serde"}}}},
 		{"install crate", []string{"install", "ripgrep"}, Plan{true, []Spec{{Name: "ripgrep"}}}},
 		{"build passes through", []string{"build"}, Plan{Checked: false}},
 	}
